@@ -1,0 +1,25 @@
+- name: Deploying a simple script
+#  hosts: ec2
+  hosts: all
+  tasks:
+    - name: Install Apache
+      become: yes
+      yum:
+        name: httpd
+        state: present
+
+    - name: Start and enable Apache
+      become: yes
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Create a custom index.html
+      become: yes
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <html>
+            <h1>Welcome to Terraform-Ansible Demo!</h1>
+          </html>

@@ -1,0 +1,24 @@
+import "tfplan"
+
+# Rule: Instance type must be "t2.micro"
+valid_instance_type = rule {
+    all tfplan.resources.aws_instance as _, instances {
+        all instances as r {
+            r.applied.instance_type is "t2.micro"
+        }
+    }
+}
+
+# Rule: Availability zone must be "us-east-1a"
+valid_availability_zone = rule {
+    all tfplan.resources.aws_instance as _, instances {
+        all instances as r {
+            r.applied.availability_zone is "us-east-1a"
+        }
+    }
+}
+
+# Combine rules
+main = rule {
+    valid_instance_type and valid_availability_zone
+}

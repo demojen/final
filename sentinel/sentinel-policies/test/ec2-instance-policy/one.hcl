@@ -1,0 +1,6 @@
+test {
+  rules = {
+    main = true
+
+  }
+}

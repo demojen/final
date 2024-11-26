@@ -1,0 +1,15 @@
+import "tfplan"
+
+# Allowed ports
+allowed_ports = [22, 80]
+
+# Ensure security group ingress rules allow only allowed ports
+sg_ingress_valid = all tfplan.resource_changes.aws_security_group as _, sg {
+    all sg.change.after.ingress as rule {
+        rule.from_port in allowed_ports and rule.to_port in allowed_ports
+    }
+}
+
+main = rule {
+    sg_ingress_valid
+}

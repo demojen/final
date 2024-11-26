@@ -1,0 +1,23 @@
+[
+  {
+    "name": "valid instance type and zone",
+    "input": {
+      "mock-tfplan.sentinel": "mock-tfplan.sentinel"
+    },
+    "test": true
+  },
+  {
+    "name": "invalid instance type",
+    "input": {
+      "mock-tfplan.sentinel": "mock-invalid-instance-type.sentinel"
+    },
+    "test": false
+  },
+  {
+    "name": "invalid availability zone",
+    "input": {
+      "mock-tfplan.sentinel": "mock-invalid-zone.sentinel"
+    },
+    "test": false
+  }
+]

@@ -1,0 +1,68 @@
+# Test case for a valid instance
+test "valid instance type and zone" {
+    input "tfplan/v2" {
+        module {
+            mock = {
+                "resources": {
+                    "aws_instance": [
+                        {
+                            "applied": {
+                                "instance_type": "t2.micro",
+                                "availability_zone": "us-east-1a"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+
+    # Ensure the policy passes
+    assert_pass()
+}
+
+# Test case for an invalid instance type
+test "invalid instance type" {
+    input "tfplan/v2" {
+        module {
+            mock = {
+                "resources": {
+                    "aws_instance": [
+                        {
+                            "applied": {
+                                "instance_type": "t2.small",
+                                "availability_zone": "us-east-1a"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+
+    # Ensure the policy fails
+    assert_fail()
+}
+
+# Test case for an invalid availability zone
+test "invalid availability zone" {
+    input "tfplan/v2" {
+        module {
+            mock = {
+                "resources": {
+                    "aws_instance": [
+                        {
+                            "applied": {
+                                "instance_type": "t2.micro",
+                                "availability_zone": "us-east-1b"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+
+    # Ensure the policy fails
+    assert_fail()
+}
