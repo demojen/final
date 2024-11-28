@@ -1,0 +1,12 @@
+a = rule {
+    true
+}
+b = rule {
+    true
+    
+}
+
+
+main = rule {
+    a and b
+}

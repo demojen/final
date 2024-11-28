@@ -1,0 +1,53 @@
+image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
+
+stages:
+  - init
+  - validate
+  - plan
+  - apply
+
+variables:
+   # Example variable for Terraform
+  TF_LOG: "INFO"                  # Enable Te
+  TF_ROOT: "."                    # Path to 
+
+init:
+  stage: init
+  script:
+    - echo "Initializing Terraform..."
+    - gitlab-terraform init
+  only:
+    - main
+
+validate:
+  stage: validate
+  script:
+    - echo "Validating Terraform configuration..."
+    - gitlab-terraform validate
+  only:
+    - main
+
+plan:
+  stage: plan
+  script:
+    - echo "Planning Terraform changes..."
+    - gitlab-terraform plan -out=tfplan
+  artifacts:
+    paths:
+      - tfplan
+  only:
+    - main
+
+apply:
+  stage: apply
+  script:
+    - |
+      if [ -f "tfplan" ]; then 
+        gitlab-terraform apply -auto-approve tfplan; 
+      else 
+        echo "No plan file found, skipping apply"; 
+        exit 1; 
+      fi
+  
+  only:
+    - main
